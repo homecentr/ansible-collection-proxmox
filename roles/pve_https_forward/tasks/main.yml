@@ -18,7 +18,7 @@
 - name: "Create iptables restore script"
   ansible.builtin.copy:
     dest: /etc/network/if-up.d/run-iptables
-    mode: 0700
+    mode: "0700"
     owner: root
     group: root
     content: |
