@@ -4,7 +4,7 @@
     name:
       - python3-pexpect
 
-- name: Check if default ACME account is registered
+- name: Check if default ACME plugin is registered
   ansible.builtin.command:
     cmd: pvenode acme plugin list
   register: acme_plugin_list
