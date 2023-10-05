@@ -1,6 +1,6 @@
 - name: Check if ACME domain is already configured
   ansible.builtin.command:
-    cmd: "grep -Fxq \"domain={{ domain }},plugin={{ pve_acme_plugin_name }}\" /etc/pve/local/config"
+    cmd: "grep -Fxq \"acmedomain{{ index }}: domain={{ domain }},plugin={{ pve_acme_plugin_name }}\" /etc/pve/local/config"
   register: acme_domain_list
   check_mode: false
   ignore_errors: true
