@@ -27,6 +27,9 @@
 - name: Make sure ceph list file exists
   ansible.builtin.file:
     path: /etc/apt/sources.list.d/ceph.list
+    owner: root
+    group: root
+    mode: "0644"
     state: touch
 
 - name: Remove Ceph Quincy enterprise repository
