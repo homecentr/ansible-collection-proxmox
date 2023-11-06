@@ -1,0 +1,24 @@
+name: CI PR/Branch
+on:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Install dependencies
+        run: |
+          pip install ansible ansible-lint
+
+      - name: Lint ansible files
+        run: |
+          ansible-galaxy install -r requirements.yml
+          yarn lint
