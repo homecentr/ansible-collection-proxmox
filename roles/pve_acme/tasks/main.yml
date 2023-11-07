@@ -67,7 +67,7 @@
   loop:
     - "{{ ansible_hostname }}.{{ pve_acme_root_domain }}"
 
-- name: Configure ACME domains for individual nodes
+- name: Configure ACME domains for cluster domain
   when: pve_acme_proxmox_hostname is defined
   ansible.builtin.include_tasks:
     file: acme-domain.yml
