@@ -1,0 +1,15 @@
+- name: Get local storage info
+  community.general.proxmox_storage_info:
+    api_user: "{{ pve_storage_snippets_api_user }}"
+    api_password: "{{ pve_storage_snippets_api_password }}"
+    api_host: 127.0.0.1
+    name: local
+  register: pve_storage_snippets_local_storage
+
+- name: Configure snippets storage
+  ansible.builtin.include_tasks:
+    file: snippets.yml
+
+- name: Set local storage path to facts
+  ansible.builtin.set_fact:
+    pve_local_storage_path: "{{ pve_storage_snippets_local_storage.proxmox_storages[0].path }}"
