@@ -1,3 +1,9 @@
+- name: Install required python packages
+  ansible.builtin.package:
+    name:
+      - python3-proxmoxer
+    state: present
+
 - name: Get local storage info
   community.general.proxmox_storage_info:
     api_user: "{{ pve_local_storage_api_user }}"
