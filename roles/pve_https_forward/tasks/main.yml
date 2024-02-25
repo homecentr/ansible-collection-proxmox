@@ -14,6 +14,7 @@
   register: pve_https_forward_iptables_rule
   changed_when: false
   ansible.builtin.shell:
+    executable: /bin/bash
     cmd: |
       set -o pipefail
       iptables-save -t nat | grep 'Proxmox'
