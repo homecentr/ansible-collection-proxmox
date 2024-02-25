@@ -12,19 +12,20 @@
 
 - name: "Get serialized rule for permanent storage"
   register: pve_https_forward_iptables_rule
+  changed_when: false
   ansible.builtin.shell:
     cmd: "iptables-save -t nat | grep 'Proxmox'"
 
 - name: "Save iptables state to a file"
-  ansible.builtin.lineinfile:
-    path: /etc/iptables/nat.rules.v4
-    create: true
+  ansible.builtin.copy:
+    dest: /etc/iptables/nat.rules.v4
     owner: root
     group: root
     mode: 0644
-    regex: '^(.*)Proxmox admin interface(.*)$'
-    line: "{{ pve_https_forward_iptables_rule.stdout_lines[0] }}"
-    state: present
+    content: |
+      *nat
+      {{ pve_https_forward_iptables_rule.stdout_lines[0] }}
+      COMMIT
 
 - name: "Create iptables restore script"
   ansible.builtin.copy:
@@ -34,4 +35,4 @@
     group: root
     content: |
       #!/bin/sh
-      iptables-restore < /etc/iptables/nat.rules.v4
+      iptables-restore -n < /etc/iptables/nat.rules.v4
