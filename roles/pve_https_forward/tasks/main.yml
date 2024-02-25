@@ -10,15 +10,15 @@
     comment: "Enable Proxmox admin interface on 443"
     in_interface: vmbr0 # Must be specified to prevent docker containers calling 443 to be redirected to local
 
-# TODO: Load the rule via a shell command
 - name: "Get serialized rule for permanent storage"
   register: pve_https_forward_iptables_rule
   ansible.builtin.shell:
-    cmd: "sudo cat /etc/iptables/nat.rules.v4 | grep 'Proxmox'"
+    cmd: "iptables-save -t nat | grep 'Proxmox'"
 
 - name: "Save iptables state to a file"
   ansible.builtin.lineinfile:
     path: /etc/iptables/nat.rules.v4
+    regex: '^(.*)Proxmox admin interface(.*)$'
     line: "{{ pve_https_forward_iptables_rule.stdout_lines[0] }}"
     state: present
 
