@@ -18,6 +18,10 @@
 - name: "Save iptables state to a file"
   ansible.builtin.lineinfile:
     path: /etc/iptables/nat.rules.v4
+    create: true
+    owner: root
+    group: root
+    mode: 0644
     regex: '^(.*)Proxmox admin interface(.*)$'
     line: "{{ pve_https_forward_iptables_rule.stdout_lines[0] }}"
     state: present
