@@ -36,3 +36,5 @@
     content: |
       #!/bin/sh
       iptables-restore -n < /etc/iptables/nat.rules.v4
+      # Avoid duplicate rules
+      iptables-save | uniq | iptables-restore
