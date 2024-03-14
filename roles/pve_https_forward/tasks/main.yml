@@ -1,5 +1,4 @@
 - name: "Set up port redirect (443 -> 8006)"
-    :
     table: nat
     chain: PREROUTING
     protocol: tcp
