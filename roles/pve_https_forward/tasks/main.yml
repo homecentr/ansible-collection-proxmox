@@ -1,4 +1,5 @@
 - name: "Set up port redirect (443 -> 8006)"
+  ansible.builtin.iptables:
     table: nat
     chain: PREROUTING
     protocol: tcp
