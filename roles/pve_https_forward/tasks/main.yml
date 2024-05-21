@@ -4,9 +4,10 @@
     chain: PREROUTING
     protocol: tcp
     destination_port: 443
-    to_ports: 8006
-    source: "{{ ansible_host }}" # To avoid collision with other services exposing the same port on a different ip
-    jump: REDIRECT
+    match: tcp
+    to_destination: "{{ ansible_host }}:8006"
+    destination: "{{ ansible_host }}" # To avoid collision with other services exposing the same port on a different ip
+    jump: DNAT
     comment: "Enable Proxmox admin interface on 443"
     in_interface: vmbr0 # Must be specified to prevent docker containers calling 443 to be redirected to local
 
@@ -18,6 +19,14 @@
     cmd: |
       set -o pipefail
       iptables-save -t nat | grep 'Proxmox'
+
+- name: Create iptables directory
+  ansible.builtin.file:
+    path: /etc/iptables
+    state: directory
+    owner: root
+    group: root
+    mode: "0640"
 
 - name: "Save iptables state to a file"
   ansible.builtin.copy:

@@ -15,9 +15,3 @@
   when: pve_users is defined
   vars:
     user: "{{ item }}"
-
-- name: Remove root@pam user
-  ansible.builtin.lineinfile:
-    path: /etc/pve/user.cfg
-    state: absent
-    regex: "^user:root@pam:(.*)"
