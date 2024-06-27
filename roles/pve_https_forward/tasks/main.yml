@@ -3,9 +3,9 @@
     table: nat
     chain: PREROUTING
     protocol: tcp
+    destination: "{{ ansible_host }}" # To avoid collision with other services exposing the same port on a different ip
     destination_port: 443
     to_ports: 8006
-    source: "{{ ansible_host }}" # To avoid collision with other services exposing the same port on a different ip
     jump: REDIRECT
     comment: "Enable Proxmox admin interface on 443"
     in_interface: vmbr0 # Must be specified to prevent docker containers calling 443 to be redirected to local
