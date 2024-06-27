@@ -19,6 +19,14 @@
       set -o pipefail
       iptables-save -t nat | grep 'Proxmox'
 
+- name: Create iptables directory
+  ansible.builtin.file:
+    path: /etc/iptables
+    state: directory
+    owner: root
+    group: root
+    mode: "0640"
+
 - name: "Save iptables state to a file"
   ansible.builtin.copy:
     dest: /etc/iptables/nat.rules.v4
